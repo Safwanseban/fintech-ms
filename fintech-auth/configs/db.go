@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"fintechGo/internal/types"
 	"log"
 
 	"github.com/knadh/koanf"
@@ -15,6 +16,10 @@ func ConnectToDB(conf *koanf.Koanf) *gorm.DB {
 	if err != nil {
 		log.Fatalf("error %v", err)
 	}
+
+	db.AutoMigrate(
+		&types.AuthUser{},
+	)
 	return db
 
 }

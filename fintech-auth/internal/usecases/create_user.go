@@ -1,6 +1,7 @@
 package usecases
 
 import (
+	pkg "fintechGo/internal/pkg/middleware"
 	"fintechGo/internal/repo/interfaces"
 	"fintechGo/internal/types"
 	services "fintechGo/internal/usecases/interfaces"
@@ -11,11 +12,15 @@ type UserUsecase struct {
 }
 
 // CreateUser implements interfaces.UserInterface
-func (r *UserUsecase) CreateUser(user *types.AuthUser) error {
+func (r *UserUsecase) CreateUser(user *types.AuthUser) (map[string]string, error) {
 	if err := r.userRepo.CreateUser(user); err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	data, err := pkg.CreateJWT(user.Email)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 // FindUserByData implements interfaces.UserInterface

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	pkg "fintechGo/internal/pkg"
 	"fintechGo/internal/types"
 	services "fintechGo/internal/usecases/interfaces"
 	"net/http"
@@ -16,20 +17,24 @@ func NewHandler(ctx *gin.Engine, user services.UserInterface) {
 	handler := &Userhandler{
 		userUsercase: user,
 	}
-	ctx.GET("/", handler.GetData)
+	ctx.POST("/", handler.CreateUser)
 
 }
 
-func (u *Userhandler) GetData(ctx *gin.Context) {
+func (u *Userhandler) CreateUser(ctx *gin.Context) {
 	var users *types.AuthUser
-	err := u.userUsercase.CreateUser(users)
+	if err := ctx.ShouldBindJSON(&users); err != nil {
+		pkg.ErrorResponse(ctx, http.StatusNotFound, err)
+		return
+	}
+	jwt, err := u.userUsercase.CreateUser(users)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"err": err.Error(),
-		})
+		pkg.ErrorResponse(ctx, http.StatusInternalServerError, err)
+		return
 	}
 	ctx.JSON(200, gin.H{
-		"message": "hai",
+		"message": "success",
+		"token":   jwt,
 	})
 
 }
