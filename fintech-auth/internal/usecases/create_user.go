@@ -13,6 +13,12 @@ type UserUsecase struct {
 
 // CreateUser implements interfaces.UserInterface
 func (r *UserUsecase) CreateUser(user *types.AuthUser) (map[string]string, error) {
+
+	password, err := user.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+	user.Password = password
 	if err := r.userRepo.CreateUser(user); err != nil {
 		return nil, err
 	}
