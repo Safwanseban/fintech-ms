@@ -16,14 +16,11 @@ func (u *Userhandler) CreateUser(ctx *gin.Context) {
 		pkg.ErrorResponse(ctx, http.StatusNotFound, errors.New("bad payload"))
 		return
 	}
-	jwt, err := u.userUsercase.CreateUser(users)
-	if err != nil {
+	if err := u.userUsercase.CreateUser(users); err != nil {
 		pkg.ErrorResponse(ctx, http.StatusInternalServerError, errors.New("error encountered"))
 		return
 	}
 	ctx.JSON(200, gin.H{
-		"password": users.Password,
-		"message":  "success",
-		"token":    jwt,
+		"message": "success",
 	})
 }

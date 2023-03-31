@@ -12,9 +12,16 @@ type Db struct {
 }
 
 // GetAllUsers implements interfaces.AuthRepo
-func (*Db) GetAllUsers() (*[]types.AuthUser, error) {
-	panic("unimplemented")
-}
+// func (Db *Db) GetAllUsers() (*[]types.AuthUser, error) {
+// 	var users *[]types.AuthUser
+
+// 	result := Db.db.Find(&users)
+// 	if result.Error != nil {
+// 		return nil, result.Error
+// 	}
+// 	return users, nil
+
+// }
 
 // GetUserByEmail implements interfaces.AuthRepo
 func (Db *Db) GetUserByEmail(email string) (*types.AuthUser, error) {
