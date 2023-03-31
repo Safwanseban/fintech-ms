@@ -24,10 +24,9 @@ func (user *AuthUser) HashPassword(password string) (string, error) {
 	return string(hashed), nil
 }
 
-func (user *AuthUser) CheckPassword(password, actual string) bool {
+func (user *AuthUser) CheckPassword(actual, password string) bool {
 
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(actual))
-
+	err := bcrypt.CompareHashAndPassword([]byte(actual), []byte(password))
 	return err == nil
 
 }

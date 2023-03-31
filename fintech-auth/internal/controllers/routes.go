@@ -14,6 +14,7 @@ func NewHandler(ctx *gin.Engine, user services.UserInterface) {
 	handler := &Userhandler{
 		userUsercase: user,
 	}
-	ctx.POST("/", handler.CreateUser)
+	ctx.POST("/register", handler.CreateUser)
+	ctx.POST("/login", handler.ValidateUser)
 
 }
