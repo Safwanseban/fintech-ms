@@ -19,6 +19,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
@@ -39,8 +40,10 @@ require (
 
 require (
 	github.com/gin-gonic/gin v1.9.0
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/knadh/koanf v1.5.0
+	github.com/rs/zerolog v1.29.0
 	gorm.io/driver/postgres v1.5.0
 )

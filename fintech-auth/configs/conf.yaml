@@ -1,3 +1,5 @@
 database:
   host: "postgres://safwan:Safwan@123@localhost:5432/jwt"
 port: ":3000"
+jwt:
+  secret: "secret23483"
