@@ -1,6 +1,10 @@
 package types
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"errors"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 type AuthUser struct {
 	Name     string
@@ -9,7 +13,10 @@ type AuthUser struct {
 }
 
 func (user *AuthUser) HashPassword(password string) (string, error) {
+	if password == "" {
 
+		return "", errors.New("no password provided")
+	}
 	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
