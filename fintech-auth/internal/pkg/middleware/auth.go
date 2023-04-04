@@ -27,10 +27,11 @@ func CreateJWT(email string) (map[string]string, error) {
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
-
+	logger := configs.Getlogger()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString(secretKey)
 	if err != nil {
+		logger.Error().Err(err).Send()
 		return nil, err
 	}
 	return map[string]string{

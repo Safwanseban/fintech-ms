@@ -20,6 +20,7 @@ func (u *Userhandler) ValidateUser(ctx *gin.Context) {
 		pkg.ErrorResponse(ctx, http.StatusInternalServerError, errors.New("error encountered"))
 		return
 	}
+	ctx.Header("UserJWT", jwt["userJWT"])
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "succesfull login",
 		"jwt":     jwt,
