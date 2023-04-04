@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"errors"
+	"fintechGo/configs"
 	"fintechGo/internal/pkg"
 	"fmt"
 	"net/http"
@@ -10,19 +11,26 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+var (
+	logger = configs.Getlogger()
+)
+
 func ValidateJwt() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
 		tokenString := GetJWT(ctx)
+		fmt.Println("pooyy")
+		token, err := jwt.ParseWithClaims(tokenString, &UserJWT{}, func(t *jwt.Token) (interface{}, error) {
 
-		token, err := jwt.ParseWithClaims(tokenString, UserJWT{}, func(t *jwt.Token) (interface{}, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+
 				return nil, fmt.Errorf("unexpected sigining method:%v", t.Header["alg"])
 			}
 
 			return []byte(secretKey), nil
-		}, nil)
 
+		}, jwt.WithJSONNumber())
+		logger.Error().Err(err).Send()
 		if !token.Valid {
 			switch {
 
@@ -47,6 +55,7 @@ func ValidateJwt() gin.HandlerFunc {
 func GetJWT(ctx *gin.Context) string {
 
 	data := ctx.GetHeader("UserJWT")
+	fmt.Println(data)
 	return data
 	//return strings.Split(data, ".")
 
