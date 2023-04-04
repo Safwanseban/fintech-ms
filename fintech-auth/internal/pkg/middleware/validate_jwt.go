@@ -19,7 +19,6 @@ func ValidateJwt() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
 		tokenString := GetJWT(ctx)
-		fmt.Println("pooyy")
 		token, err := jwt.ParseWithClaims(tokenString, &UserJWT{}, func(t *jwt.Token) (interface{}, error) {
 
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -55,7 +54,10 @@ func ValidateJwt() gin.HandlerFunc {
 func GetJWT(ctx *gin.Context) string {
 
 	data := ctx.GetHeader("UserJWT")
-	fmt.Println(data)
+	if data == "" {
+		pkg.ErrorResponse(ctx, http.StatusUnauthorized, errors.New("empty header data for jwt"))
+	}
+
 	return data
 	//return strings.Split(data, ".")
 
